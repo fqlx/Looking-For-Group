@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+
+from scrapy.selector import HtmlXPathSelector
+from scrapy.http import FormRequest
+
+email = raw_input("Enter Xbox Live email: ")
+password = raw_input("Enter Xbox Live password: ")
+
+login_page = "https://login.live.com/login.srf"
+
+
+def start_requests():
+    return [FormRequest(login_page, formdata={'login': email, 'passwd':password}, callback=after_login)]
+
+def after_login(response):
+    if "authentication failed":
+        print("failed to login")
+        return
+    else:
+        return scrapy.Request("http://xbox.com", callback=self.parse)
+
+def parse(self, response):
+    print(response.url)
+    print(response)
+
+start_requests()
